@@ -80,10 +80,6 @@ class DayTwo : AocSolution(2) {
     }
 
     override fun solvePartTwo(): String {
-        var sum = 0
-        input.forEach {
-            sum += strategy(it)[1]
-        }
-        return sum.toString()
+        return input.map{strategy(it)}.sumOf { it[1] }.toString()
     }
 }

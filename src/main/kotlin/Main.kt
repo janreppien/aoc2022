@@ -1,4 +1,5 @@
 import dayOne.DayOne
+import dayThree.DayThree
 import dayTwo.DayTwo
 
 fun main() {
@@ -6,4 +7,6 @@ fun main() {
     dayOne.solveAndPrint()
     val dayTwo = DayTwo()
     dayTwo.solveAndPrint()
+    val dayThree = DayThree()
+    dayThree.solveAndPrint()
 }
