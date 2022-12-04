@@ -1,3 +1,4 @@
+import dayFour.DayFour
 import dayOne.DayOne
 import dayThree.DayThree
 import dayTwo.DayTwo
@@ -9,4 +10,6 @@ fun main() {
     dayTwo.solveAndPrint()
     val dayThree = DayThree()
     dayThree.solveAndPrint()
+    val dayFour = DayFour()
+    dayFour.solveAndPrint()
 }
