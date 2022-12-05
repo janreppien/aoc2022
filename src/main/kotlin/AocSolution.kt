@@ -3,15 +3,16 @@ import kotlin.system.measureTimeMillis
 
 abstract class AocSolution(val day: Int) {
 
-    fun solveAndPrint() {
-        println("Solutions for Day ${day}:")
+    fun solveAndPrint():Long {
+        println("Solutions for Day ${day}")
         val solutionPartOne: String
         val timePartOne = measureTimeMillis { solutionPartOne=solvePartOne() }
         println("Part 1: $solutionPartOne in $timePartOne ms")
 
         val solutionPartTwo: String
         val timePartTwo = measureTimeMillis { solutionPartTwo=solvePartTwo() }
-        println("Part 1: $solutionPartTwo in $timePartTwo ms")
+        println("Part 2: $solutionPartTwo in $timePartTwo ms\n")
+        return timePartOne+timePartTwo
     }
 
     open fun solvePartOne(): String {
