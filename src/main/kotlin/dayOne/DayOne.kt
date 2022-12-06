@@ -6,9 +6,9 @@ import java.nio.file.Path
 
 class DayOne : AocSolution(1) {
 
-    val input = readInput()
+    private val input = readInput()
 
-    fun readInput() : MutableList<MutableList<Int>> {
+    private fun readInput() : MutableList<MutableList<Int>> {
         val inputs = mutableListOf<MutableList<Int>>()
         val file = File("src/main/resources/inputs/dayOne/part1_input.txt")
 

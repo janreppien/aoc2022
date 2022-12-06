@@ -1,10 +1,9 @@
-import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
-abstract class AocSolution(val day: Int) {
+abstract class AocSolution(private val day: Int) {
 
     fun solveAndPrint():Long {
-        println("Solutions for Day ${day}")
+        println("Solutions for Day $day")
         val solutionPartOne: String
         val timePartOne = measureTimeMillis { solutionPartOne=solvePartOne() }
         println("Part 1: $solutionPartOne in $timePartOne ms")

@@ -2,7 +2,6 @@ package dayFour
 
 import AocSolution
 import java.io.File
-import java.util.StringJoiner
 
 class DayFour : AocSolution(4){
 
