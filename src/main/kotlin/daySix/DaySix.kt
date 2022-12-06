@@ -5,7 +5,7 @@ import java.io.File
 
 class DaySix : AocSolution(6){
 
-    val input = readInput()
+    private val input = readInput()
 
     private fun readInput() : List<Char> {
         val file = File("src/main/resources/inputs/daySix/input.txt")
