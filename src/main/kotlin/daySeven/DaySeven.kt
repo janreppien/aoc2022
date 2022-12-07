@@ -8,7 +8,7 @@ class DaySeven : AocSolution(7) {
     private val input = readInput()
 
     /**
-     * I am not pround of this
+     * I am not pound of this
      */
     private fun readInput(): RootDirectory {
         val file = File("src/main/resources/inputs/daySeven/input.txt")
@@ -33,7 +33,7 @@ class DaySeven : AocSolution(7) {
                         } else {
                             ""
                         }
-                        currentDirectory.content.add(daySeven.File(name, extension, size))
+                        currentDirectory.content.add(File(name, extension, size))
                     }
                 }
             }
