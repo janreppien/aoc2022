@@ -1,6 +1,7 @@
 import dayEight.DayEight
 import dayFive.DayFive
 import dayFour.DayFour
+import dayNine.DayNine
 import dayOne.DayOne
 import daySeven.DaySeven
 import daySix.DaySix
@@ -11,7 +12,8 @@ import kotlin.system.measureTimeMillis
 fun main(args: Array<String>) {
     val solution : MutableList<AocSolution>
     var timeWithReadAndPrint = measureTimeMillis {
-        solution = mutableListOf(DayOne(), DayTwo(), DayThree(), DayFour(), DayFive(), DaySix(), DaySeven(), DayEight())
+        solution = mutableListOf(DayOne(), DayTwo(), DayThree(), DayFour(), DayFive(), DaySix(), DaySeven(), DayEight(),
+            DayNine())
     }
 
     if(args.contains("-t")) {
