@@ -7,6 +7,7 @@ import java.io.File
 class DayNine : AocSolution(9) {
 
     data class Instruction(val direction: Char, val amount: Int)
+    data class Rope(var parts: List<Pair<Int, Int>>)
 
     private val input = readInput()
 
@@ -24,21 +25,32 @@ class DayNine : AocSolution(9) {
         var rope = listOf(Pair(0, 0), Pair(0, 0))
         val visitedPositions = mutableSetOf<Pair<Int, Int>>()
         input.forEach {
-            val results = applyInstruction(rope, it, listOf())
-            visitedPositions.addAll(results.second)
-            rope = results.first
-            println(it)
-            //println("visited Positions: $visitedPositions")
-            printPositions(visitedPositions.toList())
+            for (i in 0 until it.amount) {
+                rope = applyInstruction(rope, it)
+                visitedPositions.add(rope.last())
+            }
         }
-        //println(visitedPositions)
+        println(visitedPositions)
+        printPositions(visitedPositions.toList())
         return visitedPositions.size.toString()
     }
 
     override fun solvePartTwo(): String {
-
-
-        return super.solvePartTwo()
+        val tmprope = mutableListOf<Pair<Int,Int>>()
+        for(i in 0 until 10) {
+            tmprope.add(Pair(0,0))
+        }
+        var rope = tmprope.toList()
+        val visitedPositions = mutableSetOf<Pair<Int, Int>>()
+        input.forEach {
+            for (i in 0 until it.amount) {
+                rope = applyInstruction(rope, it)
+                visitedPositions.add(rope.last())
+            }
+        }
+        println(visitedPositions)
+        printPositions(visitedPositions.toList())
+        return visitedPositions.size.toString()
     }
 
 
@@ -48,11 +60,11 @@ class DayNine : AocSolution(9) {
         val maxWidth = visitedPositions.maxOf { it.second }
         val minWidth = visitedPositions.minOf { it.second }
 
-        for(i in maxHeight downTo minHeight) {
-            for(j in minWidth .. maxWidth) {
-                if(visitedPositions.contains(Pair(i,j))) {
+        for (i in maxHeight downTo minHeight) {
+            for (j in minWidth..maxWidth) {
+                if (visitedPositions.contains(Pair(i, j))) {
                     print("#")
-                }else {
+                } else {
                     print(".")
                 }
             }
@@ -60,62 +72,39 @@ class DayNine : AocSolution(9) {
         }
     }
 
-    private fun applyInstruction(
-            rope: List<Pair<Int, Int>>, instruction: Instruction, visitedPositions:
-            List<Pair<Int, Int>>
-    ): Pair<List<Pair<Int, Int>>, List<Pair<Int, Int>>> {
-        //println(visitedPositions)
-        if (instruction.amount == 0) {
-            return Pair(rope, visitedPositions)
+    private fun applyInstruction(rope: List<Pair<Int, Int>>, instruction: Instruction): List<Pair<Int, Int>> {
+        val newRope = rope.toMutableList()
+        val movement = when (instruction.direction) {
+            'L' -> Pair(0, -1)
+            'R' -> Pair(0, 1)
+            'U' -> Pair(1, 0)
+            'D' -> Pair(-1, 0)
+            else -> Pair(0, 0)
         }
 
-        val newRope = mutableListOf<Pair<Int, Int>>()
-        val direction =
-                when (instruction.direction) {
-                    'L' -> Pair(0, -1)
-                    'R' -> Pair(0, 1)
-                    'D' -> Pair(-1, 0)
-                    'U' -> Pair(1, 0)
-                    else -> Pair(0, 0)
-                }
-        newRope.add(Pair(rope.first().first + direction.first, rope.first().second + direction.second))
-        for (i in 1 until   rope.size) {
-            if (!directNeighbours(newRope.last(), rope[i])) {
-                if (instruction.direction in listOf('L', 'R')) {
-                    if (rope[i].first == newRope[i - 1].first) {
-                        newRope.add(Pair(rope[i].first + direction.first, rope[i].second + direction.second))
-                    } else {
-                        println("jump LR")
-                        newRope.add(
-                                when (instruction.direction) {
-                                    'L' -> Pair(newRope.last().first, newRope.last().second + 1)
-                                    'R' -> Pair(newRope.last().first, newRope.last().second - 1)
-                                    else -> Pair(-1111, -1111)
-                                }
-                        )
-                    }
+        newRope[0] = applyMovement(newRope[0], movement)
+        for (j in 1 until rope.size) {
+            if (!directNeighbours(newRope[j], newRope[j - 1])) {
+                if (newRope[j - 1].first != newRope[j].first && newRope[j - 1].second != newRope[j].second) {
+                    newRope[j] = (
+                            when (instruction.direction) {
+                                'L' -> Pair(newRope[j - 1].first, newRope[j - 1].second + 1)
+                                'R' -> Pair(newRope[j - 1].first, newRope[j - 1].second - 1)
+                                'U' -> Pair(newRope[j - 1].first - 1, newRope[j - 1].second)
+                                'D' -> Pair(newRope[j - 1].first + 1, newRope[j - 1].second)
+                                else -> Pair(1111, 1111)
+                            }
+                            )
                 } else {
-                    if (rope[i].second == newRope.last().second) {
-                        newRope.add(Pair(rope[i].first + direction.first, rope[i].second + direction.second))
-                    } else {
-                        println("jump UD")
-                        newRope.add(
-                                when (instruction.direction) {
-                                    'U' -> Pair(newRope.last().first - 1, newRope.last().second)
-                                    'D' -> Pair(newRope.last().first + 1, newRope.last().second)
-                                    else -> Pair(-1111, -1111)
-                                }
-                        )
-                    }
+                    newRope[j] = (applyMovement(newRope[j], movement))
                 }
-            } else {
-                newRope.add(rope[i])
             }
         }
-        return applyInstruction(
-                newRope, Instruction(instruction.direction, instruction.amount - 1), visitedPositions
-                + newRope.last()
-        )
+        return newRope.toList()
+    }
+
+    private fun applyMovement(one: Pair<Int, Int>, two: Pair<Int, Int>): Pair<Int, Int> {
+        return Pair(one.first + two.first, one.second + two.second)
     }
 
     private fun directNeighbours(one: Pair<Int, Int>, two: Pair<Int, Int>): Boolean {
