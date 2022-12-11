@@ -1,4 +1,5 @@
 import dayEight.DayEight
+import dayEleven.DayEleven
 import dayFive.DayFive
 import dayFour.DayFour
 import dayNine.DayNine
@@ -14,7 +15,7 @@ fun main(args: Array<String>) {
     val solution : MutableList<AocSolution>
     var timeWithReadAndPrint = measureTimeMillis {
         solution = mutableListOf(DayOne(), DayTwo(), DayThree(), DayFour(), DayFive(), DaySix(), DaySeven(), DayEight(),
-            DayNine(), DayTen())
+            DayNine(), DayTen(), DayEleven())
     }
 
     if(args.contains("-t")) {
